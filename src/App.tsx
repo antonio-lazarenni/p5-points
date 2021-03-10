@@ -7,22 +7,17 @@ class Point extends P5.Vector {
   x: number;
   y: number;
   color: string;
-  _nearestPoint!: Point;
+  nearestPoint: Point;
 
   constructor(x: number, y: number, color: string) {
     super();
     this.x = x;
     this.y = y;
     this.color = color;
-    this._nearestPoint = null;
-  }
-
-  set nearestPoint(point: Point) {
-    this._nearestPoint = point;
   }
 
   update(): void {
-    const acc = this.sub(this.nearestPoint);
+    const acc = P5.Vector.add(this, this.nearestPoint);
 
     acc.setMag(1);
 
@@ -51,7 +46,7 @@ const App = () => {
       canvasParentRef
     );
 
-    const lol = getPoints(3).map((p, _idx, original) => {
+    const lol = getPoints(22).map((p, _idx, original) => {
       original.forEach((op) => {
         if (p.dist(op) === 0) {
           return;
@@ -81,7 +76,7 @@ const App = () => {
       };
 
       if (points.length) {
-        points.forEach((point) => point.render(renderer));
+        points.forEach((point: Point) => point.render(renderer));
       }
     },
     [points]
